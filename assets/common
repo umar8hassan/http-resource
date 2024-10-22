@@ -81,6 +81,12 @@ notSet() {
   return 1;
 }
 
+isEmpty() {
+  eval varVal=\$$1;
+  if [ "$varVal" = "" ]; then return 1; fi
+  return 0
+}
+
 isSensitive() {
     if isTrue params_sensitive; then return 0; fi
     if isTrue source_sensitive && notSet params_sensitive; then return 0; fi

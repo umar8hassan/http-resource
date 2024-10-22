@@ -27,7 +27,7 @@ checkResource() {
 }
 
 emitResult() {
-  if notSet version; then
+  if notSet version && isEmpty version; then
     out='[]'
   else
     out=$(jq -n --arg version "$version" '[{version: $version}]')

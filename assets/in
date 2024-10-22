@@ -15,23 +15,20 @@ main() {
 }
 
 exitIfNoop() {
-  if notTrue params_no_get; then
-    if isTrue source_out_only; then
-      log -p "\n${gray}--> no-op (source config 'out_only' is true)${reset}"
-      jq  --arg version "$(jq -r '.version.version // ""' < $payload)" \
-          --arg url "$source_url" \
-          -n '{
-        "version": {
-          "version": $version
-        },
-        "metadata": [
-          { "name": "url", "value": $url },
-          { "name": "status", "value": "no-op" }
-        ]
-      }' >&5
-      exit 0
-    fi
-  log -p "\n${gray}--> no-op (source config 'out_only' is true)${reset}"
+  if isTrue source_out_only; then
+    log -p "\n${gray}--> no-op (source config 'out_only' is true)${reset}"
+    jq  --arg version "$(jq -r '.version.version // ""' < $payload)" \
+        --arg url "$source_url" \
+        -n '{
+      "version": {
+        "version": $version
+      },
+      "metadata": [
+        { "name": "url", "value": $url },
+        { "name": "status", "value": "no-op" }
+      ]
+    }' >&5
+    exit 0
   fi
 }
 
@@ -64,7 +61,6 @@ fetchResource() {
       else
         log -p "${green}Versions match!${reset}"
       fi
-      log -p "${red}Version is not set!${reset}"
     fi
   else
     log -p "\n${gray}--> Skipping version verification.  If you want to strictly assert the retrieved version matches the version from check, set this step's param 'strict' to 'true'.${reset}"
