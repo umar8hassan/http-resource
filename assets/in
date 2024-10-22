@@ -53,12 +53,14 @@ fetchResource() {
   if isTrue params_strict; then
     log -p "\n--> verifying requested resource version ${blue}${requestedVersion}${reset} matches actual version just retrieved ${cyan}${version}${reset} ..."
 
-    if [ "$requestedVersion" != "$version" ]; then
-      log -p "${red}Versions do not match!${reset}"
-      log -p "${gray}Strict resource checking can be disabled by setting this step's param 'strict' to 'false' (or by omitting it all together since 'false' is the default).${reset}"
-      exit 1
-    else
-      log -p "${green}Versions match!${reset}"
+    if isSet version; then
+      if [ "$requestedVersion" != "$version" ]; then
+        log -p "${red}Versions do not match!${reset}"
+        log -p "${gray}Strict resource checking can be disabled by setting this step's param 'strict' to 'false' (or by omitting it all together since 'false' is the default).${reset}"
+        exit 1
+      else
+        log -p "${green}Versions match!${reset}"
+      fi
     fi
   else
     log -p "\n${gray}--> Skipping version verification.  If you want to strictly assert the retrieved version matches the version from check, set this step's param 'strict' to 'true'.${reset}"
