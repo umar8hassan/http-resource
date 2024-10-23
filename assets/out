@@ -29,10 +29,16 @@ emitResult() {
       --arg method "$method" \
       --arg url "$source_url" \
       --arg status "$response_status" \
-      -n '{
-    "version": {
-      "version": $version
-    },
+      -n '
+    ( if $version != "" then 
+      {"version": 
+        { "version": $version }
+      } 
+      else 
+        {} 
+      end
+    ) +
+    {
     "metadata": [
       { "name": "method", "value": $method },
       { "name": "url", "value": $url },

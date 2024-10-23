@@ -15,14 +15,11 @@ main() {
 }
 
 exitIfNoop() {
-  if isTrue source_out_only; then
+  if isTrue source_out_only || isTrue params_no_get; then
     log -p "\n${gray}--> no-op (source config 'out_only' is true)${reset}"
     jq  --arg version "$(jq -r '.version.version // ""' < $payload)" \
         --arg url "$source_url" \
         -n '{
-      "version": {
-        "version": $version
-      },
       "metadata": [
         { "name": "url", "value": $url },
         { "name": "status", "value": "no-op" }

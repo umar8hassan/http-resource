@@ -84,7 +84,13 @@ notSet() {
 isEmpty() {
   eval varVal=\$$1;
   if [ "$varVal" = "" ]; then return 1; fi
-  return 0
+  return 0;
+}
+
+notEmpty() {
+  eval varVal=\$$1;
+  if [ "$varVal" = "" ]; then return 0; fi
+  return 1;
 }
 
 isSensitive() {
